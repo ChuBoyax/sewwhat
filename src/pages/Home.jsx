@@ -246,7 +246,7 @@ function Also() {
           <Marquee items={ALSO.map((a) => a.title)} itemClassName="display text-4xl sm:text-6xl" />
         </div>
         <div className="-mt-4 rotate-1 border-y border-moss/15 bg-linen/90 py-4 text-tulip backdrop-blur">
-          <Marquee items={ALSO.map((a) => a.title)} reverse itemClassName="display outline-text text-4xl italic sm:text-6xl" />
+          <Marquee items={ALSO.map((a) => a.title)} reverse itemClassName="display text-4xl italic sm:text-6xl" />
         </div>
       </div>
 

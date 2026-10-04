@@ -52,10 +52,6 @@
     letter-spacing: 0.24em;
     text-transform: uppercase;
   }
-  .outline-text {
-    color: transparent;
-    -webkit-text-stroke: 1.25px currentColor;
-  }
 
   /* ---------- buttons: cursor-origin fill + rolling label ---------- */
   .btn {
