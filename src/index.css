@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+/*
+  Sew What Alterations — design tokens
+  Three colours, taken from the original site's tulip and leaves:
+    Tulip #C92463 · Moss #142B1B · Linen #F6F2E9
+  (Blush is only a light tint of Tulip, for use on dark Moss backgrounds.)
+*/
+@theme static {
+  --color-tulip: #C92463;
+  --color-moss: #142B1B;
+  --color-linen: #F6F2E9;
+  --color-blush: #EE8FB3;
+
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces", "Times New Roman", Georgia, serif;
+
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-marquee-reverse: marquee 40s linear infinite reverse;
+  --animate-spin-slow: spin 24s linear infinite;
+
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  html {
+    background: var(--color-linen);
+    color: var(--color-moss);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body { font-family: var(--font-sans); }
+  ::selection { background: var(--color-tulip); color: var(--color-linen); }
+  :focus-visible { outline: 3px solid var(--color-tulip); outline-offset: 3px; border-radius: 10px; }
+}
+
+@layer components {
+  .display {
+    font-family: var(--font-display);
+    font-weight: 380;
+    letter-spacing: -0.035em;
+    font-optical-sizing: auto;
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+  .outline-text {
+    color: transparent;
+    -webkit-text-stroke: 1.25px currentColor;
+  }
+
+  /* ---------- buttons: cursor-origin fill + rolling label ---------- */
+  .btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    border-radius: 999px;
+    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+    min-height: 3.25rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: color 0.5s var(--ease-silk);
+    --btn-fill: var(--color-moss);
+    --icon-bg: var(--color-linen);
+    --icon-fg: var(--color-moss);
+  }
+  .btn:not(:has(.btn-icon)) { padding-right: 1.5rem; }
+  .btn::before {
+    content: "";
+    position: absolute;
+    left: var(--x, 50%);
+    top: var(--y, 50%);
+    width: 260%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--btn-fill);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.7s var(--ease-silk);
+    z-index: -1;
+  }
+  .btn:hover::before { transform: translate(-50%, -50%) scale(1); }
+  .btn-tulip { background: var(--color-tulip); color: var(--color-linen); --icon-fg: var(--color-tulip); }
+  .btn-moss { background: var(--color-moss); color: var(--color-linen); --btn-fill: var(--color-tulip); }
+  .btn-ghost { box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--color-moss) 30%, transparent); color: var(--color-moss); --icon-bg: var(--color-moss); --icon-fg: var(--color-linen); }
+  .btn-ghost:hover { color: var(--color-linen); --icon-bg: var(--color-linen); --icon-fg: var(--color-moss); }
+  .btn-light { box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--color-linen) 35%, transparent); color: var(--color-linen); --btn-fill: var(--color-linen); }
+  .btn-light:hover { color: var(--color-moss); --icon-bg: var(--color-moss); --icon-fg: var(--color-linen); }
+  .btn-icon {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: var(--icon-bg);
+    color: var(--icon-fg);
+    transition: transform 0.6s var(--ease-silk), background 0.4s, color 0.4s;
+  }
+  .btn:hover .btn-icon { transform: rotate(-45deg) scale(1.06); }
+  .roll { position: relative; display: block; overflow: hidden; line-height: 1.25; white-space: nowrap; }
+  .roll > span { display: block; transition: transform 0.6s var(--ease-silk); }
+  .roll::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    transition: transform 0.6s var(--ease-silk);
+  }
+  .btn:hover .roll > span, .btn:hover .roll::after { transform: translateY(-100%); }
+
+  /* ---------- spotlight cards ---------- */
+  .spot { position: relative; overflow: hidden; }
+  .spot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--color-tulip) 16%, transparent), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .spot:hover::after { opacity: 1; }
+
+  /* ---------- sewing motifs ---------- */
+  .stitch { fill: none; stroke: var(--color-tulip); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 10 9; }
+  .stitch-bar { background: repeating-linear-gradient(90deg, var(--color-tulip) 0 12px, transparent 12px 20px); }
+  .stitch-run {
+    background: repeating-linear-gradient(90deg, color-mix(in oklab, var(--color-linen) 70%, transparent) 0 8px, transparent 8px 15px) center / 100% 2px no-repeat;
+    animation: stitch-run 1.2s linear infinite;
+  }
+  @keyframes stitch-run { to { background-position: 15px center; } }
+  .tape-ticks {
+    background-image:
+      repeating-linear-gradient(90deg, currentColor 0 1.5px, transparent 1.5px 60px),
+      repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 15px);
+    background-size: 100% 14px, 100% 7px;
+    background-repeat: repeat-x;
+  }
+
+  /* ---------- ambient layers ---------- */
+  .blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    animation: blob 20s ease-in-out infinite alternate;
+  }
+  @keyframes blob {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(10%, -8%) scale(1.15); }
+    100% { transform: translate(-8%, 10%) scale(0.92); }
+  }
+  .grain {
+    position: fixed;
+    inset: -50%;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 1.2s steps(6) infinite;
+  }
+  @keyframes grain {
+    0%, 100% { transform: translate(0, 0); }
+    20% { transform: translate(-4%, 3%); }
+    40% { transform: translate(3%, -5%); }
+    60% { transform: translate(-2%, 6%); }
+    80% { transform: translate(5%, -2%); }
+  }
+  .curtain { position: fixed; inset: 0; pointer-events: none; }
+
+  /* ---------- floating-label fields ---------- */
+  .field { position: relative; }
+  .field input, .field textarea {
+    width: 100%;
+    border-radius: 1.1rem;
+    border: 1.5px solid color-mix(in oklab, var(--color-moss) 14%, transparent);
+    background: color-mix(in oklab, white 55%, transparent);
+    padding: 1.6rem 1.1rem 0.6rem;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+  }
+  .field input:focus, .field textarea:focus {
+    border-color: var(--color-tulip);
+    background: white;
+    box-shadow: 0 0 0 5px color-mix(in oklab, var(--color-tulip) 14%, transparent);
+  }
+  .field label {
+    position: absolute;
+    left: 1.15rem;
+    top: 1.1rem;
+    color: color-mix(in oklab, var(--color-moss) 60%, transparent);
+    pointer-events: none;
+    transform-origin: left top;
+    transition: transform 0.35s var(--ease-silk), color 0.3s;
+  }
+  .field input:focus + label, .field input:not(:placeholder-shown) + label,
+  .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label {
+    transform: translateY(-0.6rem) scale(0.78);
+    color: var(--color-tulip);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain, .blob, .stitch-run, .animate-marquee, .animate-marquee-reverse, .animate-spin-slow, .animate-ping { animation: none !important; }
+  .btn, .btn::before, .roll > span, .roll::after, .btn-icon { transition: none !important; }
+}
