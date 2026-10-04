@@ -4,7 +4,7 @@ import { ALSO, SITE } from "../data/site";
 import { CLOSE, CUTOFF, OPEN, READY, useShopStatus } from "../hooks/useShopStatus";
 import { EASE, PAGE_DELAY, WRAP } from "../lib/motion";
 import { Button, Marquee, Reveal, ScrollWords, SplitWords, TiltCard } from "../components/anim";
-import { Daisy, DressForm, RotatingBadge } from "../components/art";
+import { Daisy, DressForm } from "../components/art";
 import { Icon } from "../components/Icon";
 import { StatusPill } from "../components/StatusPill";
 
@@ -56,10 +56,8 @@ function Hero() {
             <span className="display text-3xl italic text-tulip sm:text-4xl">Welcome!</span>
           </motion.p>
 
-          <h1 className="display mt-5 text-[clamp(3rem,8vw,6.75rem)] leading-[0.9]">
-            <SplitWords text="Sew What" onMount delay={PAGE_DELAY + 0.1} />
-            <br />
-            <SplitWords text="*Alterations*" onMount delay={PAGE_DELAY + 0.3} />
+          <h1 className="display mt-5 whitespace-nowrap text-[clamp(1.75rem,4.6vw,4.25rem)] leading-none">
+            <SplitWords text="Sew What *Alterations*" onMount delay={PAGE_DELAY + 0.1} />
           </h1>
 
           <Reveal onMount delay={PAGE_DELAY + 0.6}>
@@ -95,14 +93,6 @@ function Hero() {
                 transition={{ duration: 1.8, ease: EASE, delay: PAGE_DELAY }}
               />
             </motion.div>
-          </motion.div>
-          <motion.div
-            initial={{ scale: 0, rotate: -90 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ duration: 1.2, ease: EASE, delay: PAGE_DELAY + 1.4 }}
-            className="absolute right-0 top-4 sm:right-6 lg:-right-2"
-          >
-            <RotatingBadge className="h-28 w-28 sm:h-36 sm:w-36" />
           </motion.div>
         </motion.div>
       </div>

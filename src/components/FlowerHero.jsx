@@ -44,7 +44,7 @@ export function FlowerHero({ eyebrow, title, image, alt, width, height, petalCla
               {eyebrow}
             </p>
           </Reveal>
-          <h1 className="display mt-6 text-[clamp(3.4rem,10vw,8.5rem)] leading-[0.9]">
+          <h1 className="display mt-6 text-[clamp(2.5rem,6vw,5.25rem)] leading-[0.98]">
             <SplitWords text={title} onMount delay={PAGE_DELAY} />
           </h1>
           {children}
