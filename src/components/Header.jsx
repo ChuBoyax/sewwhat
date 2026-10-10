@@ -19,7 +19,7 @@ export function Logo({ light = false }) {
       <LogoMark className="h-10 w-10 transition-transform duration-700 ease-silk group-hover:rotate-[20deg]" />
       <span className="leading-none">
         <span className={`display block text-[1.45rem] ${light ? "text-linen" : "text-moss"}`}>Sew What</span>
-        <span className={`eyebrow mt-0.5 block !text-[0.6rem] ${light ? "text-linen/60" : "text-moss/60"}`}>Alterationss</span>
+        <span className={`eyebrow mt-0.5 block !text-[0.6rem] ${light ? "text-linen/60" : "text-moss/60"}`}>Alterations</span>
       </span>
     </Link>
   );
